@@ -6,9 +6,16 @@ import 'package:recipes_app/presentation/home/home_screen.dart';
 import 'package:recipes_app/utils/constants.dart';
 
 void main() async {
+  await EasyLocalization.ensureInitialized();
   runApp(
     ProviderScope(
-      child: const MyApp(),
+      child: EasyLocalization(
+        path: 'assets/translations',
+        supportedLocales: localeList,
+        fallbackLocale: englishLocale,
+        useOnlyLangCode: true,
+        child: const MyApp(),
+      ),
     )
 
   );
