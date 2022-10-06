@@ -7,6 +7,7 @@ import 'package:recipes_app/utils/constants.dart';
 
 void main() async {
   await EasyLocalization.ensureInitialized();
+  ServiceLocator.init();
   runApp(
     ProviderScope(
       child: EasyLocalization(
