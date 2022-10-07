@@ -206,7 +206,7 @@ class Length {
     this.unit,
   });
 
-  int? number;
+  num? number;
   Unit? unit;
 
   factory Length.fromJson(Map<String, dynamic> json) => Length(
