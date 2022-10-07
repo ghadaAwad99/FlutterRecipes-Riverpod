@@ -84,7 +84,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget buildRecipeCard(HomeState state, int index) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, RecipeDetailsScreen.tag);
+        Navigator.pushNamed(context, RecipeDetailsScreen.tag, arguments: state.recipes?[index]);
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
