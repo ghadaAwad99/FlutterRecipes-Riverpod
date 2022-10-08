@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipes_app/presentation/home/home_state.dart';
 import 'package:recipes_app/presentation/home/home_viewModel.dart';
-import 'package:recipes_app/presentation/recipe_details/recipe_details_screen.dart';
-import 'package:recipes_app/utils/app_colors.dart';
+import 'package:recipes_app/presentation/home/widgets/filtered_recipe_card.dart';
+import 'package:recipes_app/presentation/home/widgets/filters_chips.dart';
+import 'package:recipes_app/presentation/home/widgets/recipe_card_builder.dart';
+import 'package:recipes_app/utils/widgets/custom_app_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,37 +24,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     HomeState state = ref.watch(homeViewModelProvider);
+    HomeViewModel viewModel = ref.read(homeViewModelProvider.notifier);
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          leading: Icon(
-            Icons.search,
-            color: AppColors.green,
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          centerTitle: true,
-          title: Column(
-            children: [
-              RichText(
-                text: TextSpan(
-                    text: "GOOD",
-                    style: TextStyle(color: AppColors.green, fontSize: 25),
-                    children: const [
-                      TextSpan(
-                          text: "MEAL", style: TextStyle(color: Colors.black)),
-                    ]),
-              ),
-              Text(
-                "Food Recipes",
-                style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
-              )
-            ],
-          ),
-        ),
-        body: state.isSuggestedRecipesLoading
-            ? Center(child: CircularProgressIndicator())
-            : Padding(
+        appBar: buildCustomAppbar(),
+        body: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,82 +37,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       "Suggested Recipes",
                       style: TextStyle(fontSize: 18),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Container(
+                    state.isSuggestedRecipesLoading ? Center(child: CircularProgressIndicator())
+                  : SizedBox(
                       width: 500,
-                      height: 200,
+                      height: 180,
                       child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) =>
-                            buildRecipeCard(state, index),
+                            buildRecipeCard(state, index, context),
                         itemCount: state.recipes?.length,
                       ),
-                    )
+                    ),
+                    FiltersChips(state: state, viewModel: viewModel),
+                    state.isFilteredRecipesLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) =>
+                              FilteredRecipeCard(state: state, index: index),
+                          itemCount: state.filteredRecipes?.length,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              )
-    );
-  }
-
-  Widget buildRecipeCard(HomeState state, int index) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, RecipeDetailsScreen.tag, arguments: state.recipes?[index]);
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: Colors.grey.shade100,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 150,
-              height: 200,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    state.recipes?[index].image ?? "",
-                    fit: BoxFit.cover,
-                  )
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: SizedBox(
-                          width: 150,
-                          child: Text(
-                            state.recipes?[index].title ?? "",
-                            style: TextStyle(fontSize: 20),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          )
-                      )
-                  ),
-                  Expanded(
-                      child: SizedBox(
-                          width: 150,
-                          child: Text(
-                            state.recipes?[index].summary ?? "",
-                            style: TextStyle(fontSize: 13),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 4,
-                          )
-                      )
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+        )
     );
   }
 }

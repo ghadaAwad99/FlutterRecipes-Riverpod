@@ -2,10 +2,13 @@ import 'dart:ui';
 
 class AppColors {
   static final green = Color(getColorHexFromStr('#86BE3C'));
+  static final lightGreen = Color(getColorHexFromStr('#ECF8D1'));
+  static final darkGreen = Color(getColorHexFromStr('#96C70C'));
+  static final appGrey = Color(getColorHexFromStr('#EFEFEF'));
 }
 
 int getColorHexFromStr(String colorStr) {
-  colorStr = "FF" + colorStr;
+  colorStr = "FF$colorStr";
   colorStr = colorStr.replaceAll("#", "");
   int val = 0;
   int len = colorStr.length;
@@ -20,7 +23,7 @@ int getColorHexFromStr(String colorStr) {
       // a..f
       val += (hexDigit - 87) * (1 << (4 * (len - 1 - i)));
     } else {
-      throw new FormatException("An error occurred when converting a color");
+      throw const FormatException("An error occurred when converting a color");
     }
   }
   return val;

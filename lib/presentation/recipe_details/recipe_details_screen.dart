@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
+import 'package:recipes_app/presentation/recipe_details/widgets/ingredients_widget.dart';
+import 'package:recipes_app/presentation/recipe_details/widgets/instructions_widget.dart';
+import 'package:recipes_app/presentation/recipe_details/widgets/photo_header.dart';
 import 'package:recipes_app/utils/app_colors.dart';
-import 'package:recipes_app/utils/images.dart';
-import 'package:recipes_app/utils/network/end_points.dart';
-import 'package:recipes_app/utils/string_extension.dart';
 
 class RecipeDetailsScreen extends StatefulWidget {
   const RecipeDetailsScreen({Key? key, required this.recipe}) : super(key: key);
@@ -27,6 +27,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> with TickerPr
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +46,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> with TickerPr
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -73,167 +74,6 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> with TickerPr
           )
         ],
       ),
-    );
-  }
-}
-
-class IngredientsWidget extends StatelessWidget {
-  const IngredientsWidget({
-    Key? key,
-    required this.ingredients,
-  }) : super(key: key);
-
-  final List<ExtendedIngredient> ingredients;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
-      child: ListView.builder(
-          itemCount: ingredients.length,
-        itemBuilder: (context, index) =>
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                        height: 60,
-                        width: 60,
-                        child: ingredients[index].image != null 
-                            ? Image.network(EndPoints.imageUrl + (ingredients[index].image!)) 
-                            : Image.asset(placeholder)
-                    ),
-                  ),
-                  Spacer(),
-                  Expanded(
-                    flex: 2,
-                    child: Text(
-                      ingredients[index].name?.capitalize() ?? "",
-                      style: TextStyle(fontSize: 16, color: Colors.grey.shade600,),
-                    ),
-                  ),
-                  Spacer(),
-                  Expanded(
-                    flex: 1,
-                      child: Text(
-                        "${ingredients[index].amount}  ${ingredients[index].unit}",
-                        style: TextStyle(fontSize: 13),
-                      )
-                  ),
-                ],
-              ),
-            ),
-          )
-      ),
-    );
-  }
-}
-
-class PhotoHeader extends StatelessWidget {
-  const PhotoHeader({
-    Key? key,
-    required this.recipe,
-  }) : super(key: key);
-
-  final Recipe recipe;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.bottomStart,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(recipe.image ?? "",)
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(
-            height: 35,
-            width: 90,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20)
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.access_time_filled,
-                    color: AppColors.green,
-                    size: 18,
-                  ),
-                  const SizedBox(width: 6,),
-                  Text("${recipe.readyInMinutes} min")
-                ],
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          left: 15,
-          top: 25,
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-              },
-            icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
-        ),
-      ],
-    );
-  }
-}
-
-class InstructionsWidget extends StatelessWidget {
-  const InstructionsWidget({
-    Key? key,
-    required this.instructions,
-  }) : super(key: key);
-  final List<AnalyzedInstruction> instructions;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
-        child: ListView.builder(
-            itemCount: instructions[0].steps?.length,
-            itemBuilder: (context, index) => Card(
-              child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("Step ${
-                          instructions[0]
-                              .steps?[index].number
-                              .toString()
-                      }",
-                        style: TextStyle(color: AppColors.green),),
-                      const SizedBox(height: 8,),
-                      Text(instructions[0].steps?[index].step ?? ""),
-                    ],
-                  )
-              ),
-            )
-        )
     );
   }
 }
