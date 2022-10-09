@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
 import 'package:recipes_app/presentation/home/home_state.dart';
 import 'package:recipes_app/presentation/recipe_details/recipe_details_screen.dart';
 import 'package:recipes_app/utils/app_colors.dart';
@@ -20,7 +21,7 @@ class FilteredRecipeCard extends StatelessWidget {
         Navigator.pushNamed(
             context,
             RecipeDetailsScreen.tag,
-            arguments: state.filteredRecipes?[index]
+            arguments: Recipe(id: state.filteredRecipes?[index].id)
         );
       },
       child: Card(

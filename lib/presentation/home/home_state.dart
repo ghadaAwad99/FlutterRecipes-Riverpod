@@ -8,6 +8,9 @@ class HomeState {
   List<Result>? filteredRecipes;
   bool isFilteredRecipesLoading;
 
+  Recipe? recipeDetails;
+  bool? isDetailsLoading;
+
   bool? isDessertsSelected;
   bool? isSaladsSelected;
   bool isLunchSelected;
@@ -19,7 +22,9 @@ class HomeState {
       this.isSaladsSelected,
       this.isLunchSelected = true,
       this.filteredRecipes,
-      this.isFilteredRecipesLoading = false});
+      this.isFilteredRecipesLoading = false,
+      this.isDetailsLoading = true,
+      this.recipeDetails});
 
   HomeState copyWith({
     bool? isSuggestedRecipesLoading,
@@ -29,6 +34,8 @@ class HomeState {
     bool? isLunchSelected,
     List<Result>? filteredRecipes,
     bool? isFilteredRecipesLoading,
+    bool? isDetailsLoading,
+    Recipe? recipeDetails
   }) {
     return HomeState(
       isSuggestedRecipesLoading:
@@ -39,6 +46,8 @@ class HomeState {
       isLunchSelected: isLunchSelected ?? this.isLunchSelected,
       filteredRecipes: filteredRecipes ?? this.filteredRecipes,
       isFilteredRecipesLoading: isFilteredRecipesLoading ?? this.isFilteredRecipesLoading,
+      isDetailsLoading: isDetailsLoading ?? this.isDetailsLoading,
+      recipeDetails: recipeDetails ?? this.recipeDetails,
     );
   }
 }

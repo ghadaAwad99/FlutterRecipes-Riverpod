@@ -29,23 +29,25 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        AppLocalizations.delegate,
-      ],
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      title: 'Recipes App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          AppLocalizations.delegate,
+        ],
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        title: 'Recipes App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: HomeScreen.tag,
+        onGenerateRoute: getApplicationRoute,
+        navigatorKey: navigationKey,
       ),
-      initialRoute: HomeScreen.tag,
-      onGenerateRoute: getApplicationRoute,
-      navigatorKey: navigationKey,
     );
   }
 }

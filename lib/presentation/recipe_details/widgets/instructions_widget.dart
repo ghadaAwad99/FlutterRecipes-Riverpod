@@ -20,13 +20,21 @@ class InstructionsWidget extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Step ${instructions[0].steps?[index].number.toString()}",
-                        style: TextStyle(color: AppColors.green),
+                        style: TextStyle(
+                            color: AppColors.green,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
                       const SizedBox(height: 8,),
-                      Text(instructions[0].steps?[index].step ?? ""),
+                      Text(
+                          instructions[0].steps?[index].step ?? "",
+                        style: TextStyle(fontSize: 15),
+                      ),
                     ],
                   )
               ),

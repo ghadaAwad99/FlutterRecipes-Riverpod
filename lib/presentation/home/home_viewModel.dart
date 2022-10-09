@@ -19,6 +19,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
   final IRecipesRepository recipesRepository;
 
+  updateLoadingState() {
+    state = state.copyWith(isDetailsLoading: true);
+  }
   getSuggestedRecipes() async {
     state = state.copyWith(isSuggestedRecipesLoading: true);
     ApiResponse response = await recipesRepository.getSuggestedRecipes();
@@ -64,6 +67,22 @@ class HomeViewModel extends StateNotifier<HomeState> {
         onFailed: () {
           print("ERROR FETCHING SUGGESTED RECIPES");
           state = state.copyWith(isFilteredRecipesLoading: true);
+        }
+    );
+  }
+
+  getRecipesDetails({required String recipeId}) async {
+    state = state.copyWith(isDetailsLoading: true);
+    ApiResponse response = await recipesRepository.getRecipeDetails(recipeId: recipeId);
+    handleResponse(
+        result: response,
+        onSuccess: () {
+          Recipe recipe =(response.data as Recipe);
+          state = state.copyWith(recipeDetails: recipe, isDetailsLoading: false);
+        },
+        onFailed: () {
+          print("ERROR FETCHING SUGGESTED RECIPES");
+          state = state.copyWith(isDetailsLoading: true);
         }
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
 import 'package:recipes_app/presentation/home/home_state.dart';
 import 'package:recipes_app/presentation/home/widgets/diets_chips.dart';
 import 'package:recipes_app/utils/app_colors.dart';
@@ -13,7 +14,7 @@ Widget buildRecipeCard(HomeState state, int index, BuildContext context) {
       Navigator.pushNamed(
           context,
           RecipeDetailsScreen.tag,
-          arguments: state.recipes?[index]
+          arguments: Recipe(id: state.recipes?[index].id)
       );
     },
     child: Card(

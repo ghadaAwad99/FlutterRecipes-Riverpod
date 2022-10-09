@@ -4,4 +4,5 @@ class EndPoints {
   static const imageUrl = "https://spoonacular.com/cdn/ingredients_100x100/";
   static const suggestedRecipes = "/random";
   static const search = "/complexSearch";
+  static const information = "/information";
 }
