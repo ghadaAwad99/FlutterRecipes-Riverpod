@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipes_app/di/service_locator.dart';
-import 'package:recipes_app/presentation/home/home_screen.dart';
+import 'package:recipes_app/ui/home/home_screen.dart';
 import 'package:recipes_app/utils/app_localization.dart';
 import 'package:recipes_app/utils/constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

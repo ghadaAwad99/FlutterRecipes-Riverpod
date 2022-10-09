@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
-import 'package:recipes_app/presentation/home/home_state.dart';
-import 'package:recipes_app/presentation/home/home_viewModel.dart';
-import 'package:recipes_app/presentation/recipe_details/widgets/ingredients_widget.dart';
-import 'package:recipes_app/presentation/recipe_details/widgets/instructions_widget.dart';
-import 'package:recipes_app/presentation/recipe_details/widgets/photo_header.dart';
+import 'package:recipes_app/ui/home/home_state.dart';
+import 'package:recipes_app/ui/home/home_viewModel.dart';
+import 'package:recipes_app/ui/recipe_details/widgets/ingredients_widget.dart';
+import 'package:recipes_app/ui/recipe_details/widgets/instructions_widget.dart';
+import 'package:recipes_app/ui/recipe_details/widgets/photo_header.dart';
 import 'package:recipes_app/utils/app_colors.dart';
+import 'package:recipes_app/utils/constants.dart';
 
 class RecipeDetailsScreen extends ConsumerStatefulWidget {
-  const RecipeDetailsScreen({Key? key, /*required this.recipe*/}) : super(key: key);
-  //final Recipe recipe;
+  const RecipeDetailsScreen({Key? key}) : super(key: key);
   static const tag = "RecipeDetailsScreen";
 
   @override
@@ -20,13 +20,13 @@ class RecipeDetailsScreen extends ConsumerStatefulWidget {
 class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> with TickerProviderStateMixin {
   TabController? _tabController;
   late HomeViewModel viewModel;
+  late Recipe recipe;
+
   final customIndicator =  BoxDecoration(
       borderRadius: BorderRadius.circular(50),
       color: Colors.white
   );
   final recipeTabs = [const Tab(text: "ingredients",), const Tab(text: "Cooking Instructions",)];
-
-  late Recipe recipe;
 
   @override
   void initState() {
@@ -47,17 +47,36 @@ class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> with 
     return Scaffold(
       body: state.isDetailsLoading ?? true ? Center(child: CircularProgressIndicator())
      : Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PhotoHeader(recipe: state.recipeDetails!),
-          const SizedBox(height: 10,),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              state.recipeDetails?.title ?? "",
-              style: TextStyle(fontSize: 18),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 3,
-              textAlign: TextAlign.center,
+            padding: const EdgeInsets.only(bottom: 8.0, left: 16, right: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  state.recipeDetails?.title ?? "",
+                  style: TextStyle(fontSize: 18),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  textAlign: TextAlign.start,
+                ),
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        launchURL(url: state.recipeDetails?.sourceUrl ?? "");
+                      },
+                      child: Text(
+                        "Visit Recipe Source",
+                        style: TextStyle(color: Colors.grey, fontSize: 13),
+                      ),
+                    ),
+                    Icon(Icons.keyboard_arrow_right_sharp, size: 14,color: Colors.grey,)
+                  ],
+                ),
+              ],
             ),
           ),
           Padding(

@@ -4,7 +4,7 @@ import 'package:recipes_app/data/remote/recipes/i_recipes_repository.dart';
 import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
 import 'package:recipes_app/data/remote/recipes/models/recipes_search_response.dart';
 import 'package:recipes_app/data/remote/recipes/recipes_repository.dart';
-import 'package:recipes_app/presentation/home/home_state.dart';
+import 'package:recipes_app/ui/home/home_state.dart';
 import 'package:recipes_app/utils/constants.dart';
 import 'package:recipes_app/utils/network/api_response.dart';
 

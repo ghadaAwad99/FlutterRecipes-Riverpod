@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipes_app/presentation/home/home_state.dart';
+import 'package:recipes_app/ui/home/home_state.dart';
 import 'package:recipes_app/utils/app_colors.dart';
 import 'package:recipes_app/utils/string_extension.dart';
 

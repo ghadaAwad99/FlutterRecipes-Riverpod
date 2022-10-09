@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipes_app/presentation/home/home_state.dart';
-import 'package:recipes_app/presentation/home/home_viewModel.dart';
-import 'package:recipes_app/presentation/home/widgets/filtered_recipe_card.dart';
-import 'package:recipes_app/presentation/home/widgets/filters_chips.dart';
-import 'package:recipes_app/presentation/home/widgets/recipe_card_builder.dart';
+import 'package:recipes_app/ui/home/home_state.dart';
+import 'package:recipes_app/ui/home/home_viewModel.dart';
+import 'package:recipes_app/ui/home/widgets/filtered_recipe_card.dart';
+import 'package:recipes_app/ui/home/widgets/filters_chips.dart';
+import 'package:recipes_app/ui/home/widgets/recipe_card_builder.dart';
 import 'package:recipes_app/utils/widgets/custom_app_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -48,7 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) =>
-                            buildRecipeCard(state, index, context),
+                            RecipeCard(state: state, index: index, context: context),
                         itemCount: state.recipes?.length,
                       ),
                     ),
