@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:recipes_app/ui/search/search_screen.dart';
 import 'package:recipes_app/utils/app_colors.dart';
 
-AppBar buildCustomAppbar() {
+AppBar buildCustomAppbar(BuildContext context) {
   return AppBar(
-    leading: Icon(
-      Icons.search,
-      color: AppColors.green,
+    leading: IconButton(
+      onPressed: () {
+        Navigator.pushNamed(context, SearchScreen.tag);
+      },
+      icon: Icon(Icons.search,
+        color: AppColors.green,),
     ),
     backgroundColor: Colors.white,
     elevation: 0,

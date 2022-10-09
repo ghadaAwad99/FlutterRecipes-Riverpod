@@ -27,7 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     HomeViewModel viewModel = ref.read(homeViewModelProvider.notifier);
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: buildCustomAppbar(),
+        appBar: buildCustomAppbar(context),
         body: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(

@@ -64,13 +64,16 @@ class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> with 
                 ),
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        launchURL(url: state.recipeDetails?.sourceUrl ?? "");
-                      },
-                      child: Text(
-                        "Visit Recipe Source",
-                        style: TextStyle(color: Colors.grey, fontSize: 13),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          launchURL(url: state.recipeDetails?.sourceUrl ?? "");
+                        },
+                        child: Text(
+                          "Visit Recipe Source",
+                          style: TextStyle(color: Colors.grey, fontSize: 13),
+                        ),
                       ),
                     ),
                     Icon(Icons.keyboard_arrow_right_sharp, size: 14,color: Colors.grey,)
