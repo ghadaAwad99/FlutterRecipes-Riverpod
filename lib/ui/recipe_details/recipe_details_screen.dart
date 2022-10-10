@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
 import 'package:recipes_app/ui/home/home_state.dart';
 import 'package:recipes_app/ui/home/home_viewModel.dart';
+import 'package:recipes_app/ui/recipe_details/recipe_datails_viewModel.dart';
+import 'package:recipes_app/ui/recipe_details/recipe_details_state.dart';
 import 'package:recipes_app/ui/recipe_details/widgets/ingredients_widget.dart';
 import 'package:recipes_app/ui/recipe_details/widgets/instructions_widget.dart';
 import 'package:recipes_app/ui/recipe_details/widgets/photo_header.dart';
@@ -19,7 +21,7 @@ class RecipeDetailsScreen extends ConsumerStatefulWidget {
 
 class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> with TickerProviderStateMixin {
   TabController? _tabController;
-  late HomeViewModel viewModel;
+  late RecipeDetailsViewModel viewModel;
   late Recipe recipe;
 
   final customIndicator =  BoxDecoration(
@@ -31,7 +33,7 @@ class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> with 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
-    viewModel = ref.read(homeViewModelProvider.notifier);
+    viewModel = ref.read(recipeDetailsViewModelProvider.notifier);
     Future.delayed(
         Duration.zero,
             () {
@@ -43,7 +45,7 @@ class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> with 
 
   @override
   Widget build(BuildContext context) {
-    HomeState state = ref.watch(homeViewModelProvider);
+    RecipeDetailsState state = ref.watch(recipeDetailsViewModelProvider);
     return Scaffold(
       body: state.isDetailsLoading ?? true ? Center(child: CircularProgressIndicator())
      : Column(

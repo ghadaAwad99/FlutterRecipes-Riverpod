@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
-import 'package:recipes_app/ui/home/home_state.dart';
+import 'package:recipes_app/data/remote/recipes/models/recipes_search_response.dart';
 import 'package:recipes_app/ui/recipe_details/recipe_details_screen.dart';
 import 'package:recipes_app/utils/app_colors.dart';
 
 class FilteredRecipeCard extends StatelessWidget {
   const FilteredRecipeCard({
     Key? key,
-    required this.state,
-    required this.index,
+    required this.recipe,
   }) : super(key: key);
 
-  final HomeState state;
-  final int index;
+  final Result recipe;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class FilteredRecipeCard extends StatelessWidget {
         Navigator.pushNamed(
             context,
             RecipeDetailsScreen.tag,
-            arguments: Recipe(id: state.filteredRecipes?[index].id)
+            arguments: Recipe(id: recipe.id)
         );
       },
       child: Card(
@@ -43,7 +41,7 @@ class FilteredRecipeCard extends StatelessWidget {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
-                      state.filteredRecipes?[index].image ?? "",
+                      recipe.image ?? "",
                       fit: BoxFit.cover,
                     )
                 ),
@@ -58,7 +56,7 @@ class FilteredRecipeCard extends StatelessWidget {
                   SizedBox(
                       width: 150,
                       child: Text(
-                        state.filteredRecipes?[index].title ?? "",
+                        recipe.title ?? "",
                         style: const TextStyle(fontSize: 17),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -79,7 +77,7 @@ class FilteredRecipeCard extends StatelessWidget {
                         labelStyle: TextStyle(color: Colors.white),
                         backgroundColor: AppColors.green,
                         label: Text("${
-                            state.filteredRecipes?[index].analyzedInstructions?[0].steps
+                            recipe.analyzedInstructions?[0].steps
                                 ?.length
                                 .toString()
                         } Steps"),
@@ -91,7 +89,7 @@ class FilteredRecipeCard extends StatelessWidget {
                         label: Row(
                           children: [
                             Text("${
-                                state.filteredRecipes?[index].readyInMinutes
+                                recipe.readyInMinutes
                             } min"),
                           ],
                         ),

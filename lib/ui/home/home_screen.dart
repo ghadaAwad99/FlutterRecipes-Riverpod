@@ -62,7 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) =>
-                              FilteredRecipeCard(state: state, index: index),
+                              FilteredRecipeCard(recipe: state.filteredRecipes![index],),
                           itemCount: state.filteredRecipes?.length,
                         ),
                       ),
