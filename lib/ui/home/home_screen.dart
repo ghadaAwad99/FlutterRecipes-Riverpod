@@ -7,6 +7,8 @@ import 'package:recipes_app/ui/home/widgets/filters_chips.dart';
 import 'package:recipes_app/ui/home/widgets/recipe_card_builder.dart';
 import 'package:recipes_app/utils/widgets/custom_app_bar.dart';
 
+import '../search/delegate.dart';
+
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
   static const tag = "HomeScreen";
@@ -27,7 +29,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     HomeViewModel viewModel = ref.read(homeViewModelProvider.notifier);
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: buildCustomAppbar(context),
+        appBar: buildCustomAppbar(
+            context: context,
+        onSearch: ()  {
+            showSearch(
+              context: context,
+              delegate: CustomSearchDelegate(onQueryChange: (query){
+                WidgetsBinding.instance.addPostFrameCallback((_){
+                  viewModel.getSearchSuggestions(query: query);
+                });
+              })
+          );
+
+        }),
         body: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(

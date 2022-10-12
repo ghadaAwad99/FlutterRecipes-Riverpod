@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipes_app/data/remote/recipes/models/recipes_search_suggestion.dart';
 import 'package:recipes_app/ui/search/search_state.dart';
 import 'package:recipes_app/utils/network/api_response.dart';
 import '../../base/response_handler.dart';
@@ -27,6 +28,22 @@ class SearchViewModel extends StateNotifier<SearchState> {
         onFailed: () {
           print("ERROR FETCHING SEARCH RESULTS");
           state = state.copyWith(isSearchLoading: true);
+        }
+    );
+  }
+
+  getSearchSuggestions({required String query}) async {
+    ApiResponse response = await recipesRepository.getSearchSuggestions(query: query);
+    handleResponse(
+        result: response,
+        onSuccess: () {
+          List<SearchSuggestions> suggestionsResponse = (response.data as List<SearchSuggestions>);
+          print("search suggrstions ${suggestionsResponse.first.title}");
+          state = state.copyWith(searchSuggestions: suggestionsResponse);
+
+        },
+        onFailed: () {
+          print("ERROR FETCHING SEARCH RESULTS");
         }
     );
   }

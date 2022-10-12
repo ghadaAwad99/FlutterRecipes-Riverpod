@@ -16,6 +16,11 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
+  initState(){
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SearchState state = ref.watch(searchViewModelProvider);
     return Scaffold(
@@ -28,15 +33,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             )
           : Column(
             children: [
-              GridView.count(
-        shrinkWrap: true,
-                  crossAxisCount: 2,
-                  children: List.generate(state.recipesList?.length ?? 0, (index) {
-                    return GridRecipeCard(
-                      recipe: state.recipesList![index],
-                    );
-                  }),
-                ),
+
             ],
           ),
     );

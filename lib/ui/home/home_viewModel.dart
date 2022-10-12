@@ -8,6 +8,8 @@ import 'package:recipes_app/ui/home/home_state.dart';
 import 'package:recipes_app/utils/constants.dart';
 import 'package:recipes_app/utils/network/api_response.dart';
 
+import '../../data/remote/recipes/models/recipes_search_suggestion.dart';
+
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
         (ref) => HomeViewModel(ref.watch(recipesRepositoryProvider)));
@@ -64,6 +66,24 @@ class HomeViewModel extends StateNotifier<HomeState> {
         onFailed: () {
           print("ERROR FETCHING SUGGESTED RECIPES");
           state = state.copyWith(isFilteredRecipesLoading: true);
+        }
+    );
+  }
+
+  getSearchSuggestions({required String query}) async {
+    state = state.copyWith(isSuggestionsLoading: true);
+    ApiResponse response = await recipesRepository.getSearchSuggestions(query: query);
+    handleResponse(
+        result: response,
+        onSuccess: () {
+          List<SearchSuggestions> suggestionsResponse = (response.data as List<SearchSuggestions>);
+          if(suggestionsResponse.isNotEmpty) print("search suggrstions ${suggestionsResponse.first.title}");
+          state = state.copyWith(suggestionsList: suggestionsResponse, isSuggestionsLoading: false);
+
+        },
+        onFailed: () {
+          state = state.copyWith(isSuggestionsLoading: true);
+          print("ERROR FETCHING SEARCH RESULTS");
         }
     );
   }

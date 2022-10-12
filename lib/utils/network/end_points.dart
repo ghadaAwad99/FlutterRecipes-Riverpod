@@ -5,4 +5,5 @@ class EndPoints {
   static const suggestedRecipes = "/random";
   static const search = "/complexSearch";
   static const information = "/information";
+  static const autocomplete = "/autocomplete";
 }

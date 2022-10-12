@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:recipes_app/data/remote/recipes/models/recipes_search_suggestion.dart';
 import 'package:recipes_app/ui/search/search_screen.dart';
 import 'package:recipes_app/utils/app_colors.dart';
 
-AppBar buildCustomAppbar(BuildContext context) {
+import '../../ui/search/delegate.dart';
+
+AppBar buildCustomAppbar(
+    {required BuildContext context, required Function onSearch, }) {
   return AppBar(
-    leading: IconButton(
-      onPressed: () {
-        Navigator.pushNamed(context, SearchScreen.tag);
-      },
-      icon: Icon(Icons.search,
-        color: AppColors.green,),
-    ),
+    actions: [
+      IconButton(
+        onPressed: () {
+          onSearch();
+        },
+        icon: Icon(Icons.search, color: AppColors.green,),
+      )
+    ],
     backgroundColor: Colors.white,
     elevation: 0,
     centerTitle: true,
