@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
+import 'package:recipes_app/ui/recipe_details/recipe_details_screen.dart';
 import 'package:recipes_app/ui/search/widgets/suggestions_widget.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   final Function(String) onQueryChange;
-  CustomSearchDelegate({required this.onQueryChange});
+  CustomSearchDelegate({required this.onQueryChange, });
+  late int suggestedRecipeId;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -12,7 +15,7 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -23,14 +26,20 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text("RESULTS");
+    return Container();
+  }
 
+  @override
+  void showResults(BuildContext context) {
+    super.showResults(context);
+    Navigator.pushNamed(context, RecipeDetailsScreen.tag,
+        arguments: Recipe(id: suggestedRecipeId));
   }
 
   @override
@@ -38,8 +47,9 @@ class CustomSearchDelegate extends SearchDelegate {
     onQueryChange(query);
       return SuggestionsWidget(
         query: query,
-          onTap: () {
-        showResults(context);
+          onTap: (recipeId) {
+          suggestedRecipeId = recipeId;
+          showResults(context);
       });
   }
 }

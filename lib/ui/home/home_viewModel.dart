@@ -29,7 +29,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
         result: response,
         onSuccess: () {
           RecipesResponse recipesResponse =(response.data as RecipesResponse);
-          state = state.copyWith(recipes: recipesResponse.recipes, isSuggestedRecipesLoading: false);
+          state = state.copyWith(recipes: recipesResponse.recipes, isSuggestedRecipesLoading: true);
         },
       onFailed: () {
           print("ERROR FETCHING SUGGESTED RECIPES");
@@ -77,9 +77,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
         result: response,
         onSuccess: () {
           List<SearchSuggestions> suggestionsResponse = (response.data as List<SearchSuggestions>);
-          if(suggestionsResponse.isNotEmpty) print("search suggrstions ${suggestionsResponse.first.title}");
           state = state.copyWith(suggestionsList: suggestionsResponse, isSuggestionsLoading: false);
-
         },
         onFailed: () {
           state = state.copyWith(isSuggestionsLoading: true);

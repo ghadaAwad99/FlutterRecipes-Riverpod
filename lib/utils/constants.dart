@@ -14,6 +14,8 @@ const lunch = "lunch";
 const salad = "salad";
 const dessert = "dessert";
 
+const searchDebounce = 'debounce';
+
 launchURL({required String url}) async {
   if (await canLaunchUrl(Uri.parse(url))) {
     await launchUrl(Uri.parse(url));

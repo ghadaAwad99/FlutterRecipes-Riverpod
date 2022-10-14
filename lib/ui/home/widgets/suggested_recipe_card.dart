@@ -5,8 +5,8 @@ import 'package:recipes_app/ui/home/widgets/diets_chips.dart';
 import 'package:recipes_app/utils/app_colors.dart';
 import '../../recipe_details/recipe_details_screen.dart';
 
-class RecipeCard extends StatelessWidget {
-  const RecipeCard(
+class SuggestedRecipeCard extends StatelessWidget {
+  const SuggestedRecipeCard(
       {super.key,
       required this.state,
       required this.index,

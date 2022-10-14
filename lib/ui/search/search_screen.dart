@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipes_app/ui/search/search_state.dart';
 import 'package:recipes_app/ui/search/search_viewModel.dart';
-import 'package:recipes_app/ui/search/widgets/grid_recipe_card.dart';
 
-import '../home/widgets/filtered_recipe_card.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
