@@ -29,7 +29,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
         result: response,
         onSuccess: () {
           RecipesResponse recipesResponse =(response.data as RecipesResponse);
-          state = state.copyWith(recipes: recipesResponse.recipes, isSuggestedRecipesLoading: true);
+          state = state.copyWith(recipes: recipesResponse.recipes, isSuggestedRecipesLoading: false);
         },
       onFailed: () {
           print("ERROR FETCHING SUGGESTED RECIPES");

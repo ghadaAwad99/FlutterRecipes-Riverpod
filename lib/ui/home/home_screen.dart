@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipes_app/ui/home/home_state.dart';
 import 'package:recipes_app/ui/home/home_viewModel.dart';
 import 'package:recipes_app/ui/home/widgets/filtered_recipe_card.dart';
+import 'package:recipes_app/ui/home/widgets/filtered_recipes_loading_widget.dart';
 import 'package:recipes_app/ui/home/widgets/filters_chips.dart';
 import 'package:recipes_app/ui/home/widgets/suggested_recipe_card.dart';
 import 'package:recipes_app/ui/home/widgets/suggested_recipes_loading_widget.dart';
@@ -60,11 +61,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 height: 10,
               ),
               state.isSuggestedRecipesLoading
-                  ? SuggestedRecipesLoadingWidget()
+                  ? const SuggestedRecipesLoadingWidget()
                   : SuggestedRecipesWidget(state: state),
               FiltersChips(state: state, viewModel: viewModel),
               state.isFilteredRecipesLoading
-                  ? Center(child: CircularProgressIndicator())
+                  ? const FilteredRecipesLoadingWidget()
                   : FilteredRecipesWidget(state: state),
             ],
           ),
@@ -108,7 +109,7 @@ class FilteredRecipesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
           shrinkWrap: true,
