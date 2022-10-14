@@ -73,6 +73,7 @@ class FilteredRecipeCard extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      if(recipe.analyzedInstructions?.isNotEmpty ?? false)
                       Chip(
                         labelStyle: TextStyle(color: Colors.white),
                         backgroundColor: AppColors.green,

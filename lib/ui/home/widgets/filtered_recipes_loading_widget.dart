@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recipes_app/ui/home/widgets/filtered_recipe_card_shimmer.dart';
-import 'package:recipes_app/ui/home/widgets/suggested_recipe_card_shimmer.dart';
 
 class FilteredRecipesLoadingWidget extends StatelessWidget {
   const FilteredRecipesLoadingWidget({

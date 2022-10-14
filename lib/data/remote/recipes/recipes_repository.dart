@@ -20,8 +20,8 @@ class RecipesRepository extends IRecipesRepository {
       _suggestedRecipesService.getSuggestedRecipes();
 
   @override
-  Future<ApiResponse> getRecipesWithQuery({required String query}) =>
-      _searchRecipesService.getRecipesByQuery(query: query);
+  Future<ApiResponse> getRecipesWithQuery({required String query, int? offset}) =>
+      _searchRecipesService.getRecipesByQuery(query: query, offset: offset);
 
   @override
   Future<ApiResponse> getRecipeDetails({required String recipeId}) =>

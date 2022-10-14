@@ -41,27 +41,52 @@ class HomeViewModel extends StateNotifier<HomeState> {
   changeFilterType(FilterType filterType) {
     switch(filterType) {
       case FilterType.LUNCH:
-        state = state.copyWith(isLunchSelected: true, isSaladsSelected: false, isDessertsSelected: false);
+        state = state.copyWith(isLunchSelected: true, isSaladsSelected: false, isDessertsSelected: false, filterType: FilterType.LUNCH);
         getRecipesWithQuery(query: lunch);
         break;
       case FilterType.DESSERT:
-        state = state.copyWith(isDessertsSelected: true, isSaladsSelected: false, isLunchSelected: false);
+        state = state.copyWith(isDessertsSelected: true, isSaladsSelected: false, isLunchSelected: false, filterType: FilterType.DESSERT);
         getRecipesWithQuery(query: dessert);
         break;
       case FilterType.SALAD:
-        state = state.copyWith(isSaladsSelected: true, isDessertsSelected: false, isLunchSelected: false);
+        state = state.copyWith(isSaladsSelected: true, isDessertsSelected: false, isLunchSelected: false, filterType: FilterType.SALAD);
         getRecipesWithQuery(query: salad);
     }
   }
 
   getRecipesWithQuery({required String query}) async {
-    state = state.copyWith(isFilteredRecipesLoading: true);
-    ApiResponse response = await recipesRepository.getRecipesWithQuery(query: query);
+      state = state.copyWith(isFilteredRecipesLoading: true);
+    ApiResponse response = await recipesRepository.getRecipesWithQuery(query: query, offset: offset);
     handleResponse(
         result: response,
         onSuccess: () {
           RecipesSearchResponse recipesResponse =(response.data as RecipesSearchResponse);
           state = state.copyWith(filteredRecipes: recipesResponse.results, isFilteredRecipesLoading: false);
+        },
+        onFailed: () {
+          print("ERROR FETCHING SUGGESTED RECIPES");
+          state = state.copyWith(isFilteredRecipesLoading: true);
+        }
+    );
+  }
+
+  loadMoreRecipes({required String query}) async {
+    String query = '';
+    if(state.filterType == FilterType.LUNCH) query = lunch;
+    if(state.filterType == FilterType.DESSERT) query = dessert;
+    if(state.filterType == FilterType.SALAD) query = salad;
+    offset+=10;
+    if(offset == 1){
+      state = state.copyWith(isFilteredRecipesLoading: true);
+    }
+    ApiResponse response = await recipesRepository.getRecipesWithQuery(query: query, offset: offset);
+
+    handleResponse(
+        result: response,
+        onSuccess: () {
+          RecipesSearchResponse recipesResponse =(response.data as RecipesSearchResponse);
+          final newRecipesList = [...?state.filteredRecipes,...?recipesResponse.results];
+          state = state.copyWith(filteredRecipes: newRecipesList, isFilteredRecipesLoading: false);
         },
         onFailed: () {
           print("ERROR FETCHING SUGGESTED RECIPES");

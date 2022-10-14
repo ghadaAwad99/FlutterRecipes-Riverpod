@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipes_app/data/remote/recipes/models/recipes_search_suggestion.dart';
-import 'package:recipes_app/ui/search/search_screen.dart';
 import 'package:recipes_app/utils/app_colors.dart';
-
-import '../../ui/search/delegate.dart';
 
 AppBar buildCustomAppbar(
     {required BuildContext context, required Function onSearch, }) {

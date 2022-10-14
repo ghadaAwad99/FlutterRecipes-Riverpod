@@ -16,6 +16,8 @@ const dessert = "dessert";
 
 const searchDebounce = 'debounce';
 
+int offset =1;
+
 launchURL({required String url}) async {
   if (await canLaunchUrl(Uri.parse(url))) {
     await launchUrl(Uri.parse(url));

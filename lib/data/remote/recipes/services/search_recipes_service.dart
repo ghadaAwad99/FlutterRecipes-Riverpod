@@ -6,6 +6,7 @@ import 'package:recipes_app/utils/network/end_points.dart';
 import 'package:recipes_app/utils/network/network_request.dart';
 
 class SearchRecipesService extends BaseService {
+
   Future<ApiResponse> getRecipesByQuery({
     required String query,
     bool? addRecipeInformation = addRecipeInformation,

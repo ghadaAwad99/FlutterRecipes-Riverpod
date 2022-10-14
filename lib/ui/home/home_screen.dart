@@ -1,6 +1,8 @@
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipes_app/data/remote/recipes/models/recipes_response_entity.dart';
+import 'package:recipes_app/data/remote/recipes/models/recipes_search_response.dart';
 import 'package:recipes_app/ui/home/home_state.dart';
 import 'package:recipes_app/ui/home/home_viewModel.dart';
 import 'package:recipes_app/ui/home/widgets/filtered_recipe_card.dart';
@@ -11,7 +13,8 @@ import 'package:recipes_app/ui/home/widgets/suggested_recipes_loading_widget.dar
 import 'package:recipes_app/utils/constants.dart';
 import 'package:recipes_app/utils/widgets/custom_app_bar.dart';
 
-import '../search/delegate.dart';
+import '../../utils/widgets/pagination_list.dart';
+import '../search/search_delegate.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -35,19 +38,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         backgroundColor: Colors.white,
         appBar: buildCustomAppbar(
             context: context,
-        onSearch: ()  {
-            showSearch(
-              context: context,
-              delegate: CustomSearchDelegate(onQueryChange: (query){
-                WidgetsBinding.instance.addPostFrameCallback((_){
-                  EasyDebounce.debounce(
-                          searchDebounce, const Duration(milliseconds: 500),
+            onSearch: () {
+              showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(onQueryChange: (query) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      EasyDebounce.debounce(
+                          searchDebounce,
+                          const Duration(milliseconds: 500),
                           () => viewModel.getSearchSuggestions(query: query));
                     });
-              })
-          );
-
-        }),
+                  }));
+            }),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -66,7 +68,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               FiltersChips(state: state, viewModel: viewModel),
               state.isFilteredRecipesLoading
                   ? const FilteredRecipesLoadingWidget()
-                  : FilteredRecipesWidget(state: state),
+                  : FilteredRecipesWidget(
+                recipesList: state.filteredRecipes ?? [],
+                hasMore: true,
+                loadMore: () {
+
+                  viewModel.loadMoreRecipes(query: lunch);
+                },
+                isLoading: state.isFilteredRecipesLoading,
+              ),
             ],
           ),
         )
@@ -101,23 +111,37 @@ class SuggestedRecipesWidget extends StatelessWidget {
 class FilteredRecipesWidget extends StatelessWidget {
   const FilteredRecipesWidget({
     Key? key,
-    required this.state,
+    required this.recipesList,
+    required this.loadMore,
+    required this.hasMore,
+    required this.isLoading
   }) : super(key: key);
 
-  final HomeState state;
+  final List<Result> recipesList;
+  final Function loadMore;
+  final bool hasMore;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: ListView.builder(
+        child: PaginationList<Result>(
+          list: recipesList,
+          loadMore: loadMore,
+          hasMore: hasMore,
+          isLoading: isLoading,
+          builder: (Result recipe){
+            return FilteredRecipeCard(recipe: recipe,);
+          },
+        )/*ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) =>
               FilteredRecipeCard(recipe: state.filteredRecipes![index],),
           itemCount: state.filteredRecipes?.length,
-        ),
+        ),*/
       ),
     );
   }
