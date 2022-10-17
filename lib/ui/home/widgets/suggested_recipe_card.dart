@@ -72,6 +72,7 @@ class SuggestedRecipeCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if(state.recipes?[index].analyzedInstructions?.isNotEmpty ?? false)
                       Chip(
                         labelStyle: TextStyle(color: AppColors.green),
                         backgroundColor: AppColors.lightGreen,

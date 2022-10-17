@@ -47,12 +47,14 @@ dependencies:
   flutter_share: ^2.0.0
   easy_debounce: ^2.0.2+1
   shimmer: ^2.0.0
+  lottie: ^1.4.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_launcher_icons: ^0.10.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -65,6 +67,11 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/recipe-book.png"
+
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -79,6 +86,7 @@ flutter:
   assets:
     - assets/translations/
     - assets/images/
+    - assets/animation/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipes_app/di/service_locator.dart';
 import 'package:recipes_app/ui/home/home_screen.dart';
+import 'package:recipes_app/ui/splash/splash_screen.dart';
 import 'package:recipes_app/utils/app_localization.dart';
 import 'package:recipes_app/utils/constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: HomeScreen.tag,
+        initialRoute: SplashScreen.tag,
         onGenerateRoute: getApplicationRoute,
         navigatorKey: navigationKey,
       ),
